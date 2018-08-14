@@ -22,9 +22,18 @@ int main(int argc, char* argv[])
 	std::thread t1(&sampleThreadFunc, 12000);
 	std::cout << "Main Thread : starting to wait for the Latch to finish waiting." << std::endl;
 	latch.await(10000);
-	std::cout << "Latch status = " << latch.toString() << std::endl;
+	std::cout << "Latch status" << latch.toString() << std::endl;
 	std::cout << "Main Thread : finished waiting for the latch" << std::endl;
 	t1.join();
-	std::cout << "Latch status = " << latch.toString() << std::endl;
+	std::cout << "Latch status" << latch.toString() << std::endl;
+	try
+	{
+		latch.await();
+	}
+	catch(const std::string& e)
+	{
+		std::cout << e << std::endl;
+	}
+
 	return(0);
 }

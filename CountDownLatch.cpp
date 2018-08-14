@@ -24,7 +24,7 @@ void CountDownLatch::await()
 	}
 	else
 	{
-		std::cout << "Exception : The count down latch has already been counted down!!" << std::endl;
+		throw std::string("Exception : Attempt was made to use a CountDownLatch that has already expried!!");
 	}
 }
 
@@ -45,7 +45,7 @@ bool CountDownLatch::await(const long& waitTime)
 	}
 	else
 	{
-		std::cout << "Exception : The count down latch has already been counted down!!" << std::endl;
+		throw std::string("Exception : Attempt was made to use a CountDownLatch that has already expried!!");
 		return(false);
 	}
 }
@@ -53,15 +53,22 @@ bool CountDownLatch::await(const long& waitTime)
 void CountDownLatch::countDown()
 {
 	// Simply reduce the count of the atomic variable by 1.
-	m_count.fetch_sub(1, std::memory_order_relaxed);
-	m_cond.notify_all();
-	if(m_count == 0)
-		m_useStatus.store(true);
+	if(!m_useStatus)
+	{
+		m_count.fetch_sub(1, std::memory_order_relaxed);
+		m_cond.notify_all();
+		if(m_count == 0)
+			m_useStatus.store(true);
+	}
+	else
+	{
+		throw std::string("Exception : Attempt was made to use a CountDownLatch that has already expried!!");
+	}
 }
 
 long CountDownLatch::getCount()
 {
-	// return the count of the Latch here.
+	// return the count of the Latch here. Its ok to call this function on an expired Latch also. does not harm.
 	return(m_count);
 }
 
@@ -70,13 +77,13 @@ std::string CountDownLatch::toString()
 	const void * address = static_cast<const void*>(this);
 	std::stringstream stream;
 	stream << address;  
-	std::string returnString = "Latch Name = latch." + stream.str();
+	std::string returnString = " ==> [ Latch Name = latch." + stream.str();
 	returnString += ", Latch Count = ";
 	returnString += std::to_string(getCount());
 	returnString += ", Latch UseStatus = ";
 	if(!m_useStatus)
-		returnString += "InUse.";
+		returnString += "InUse. ]";
 	else
-		returnString += "Used.";
+		returnString += "Used. ]";
 	return(returnString);	
 }
