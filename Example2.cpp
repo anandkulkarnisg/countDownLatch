@@ -21,7 +21,9 @@ int main(int argc, char* argv[])
 {
 	std::thread t1(&sampleThreadFunc, 12000);
 	std::cout << "Main Thread : starting to wait for the Latch to finish waiting." << std::endl;
-	latch.await(10000);
+	bool status = latch.await(10000);
+	if(!status)
+		std::cout << "Latch wait from main timedout and has returned false!!" << std::endl;
 	std::cout << "Latch status" << latch.toString() << std::endl;
 	std::cout << "Main Thread : finished waiting for the latch" << std::endl;
 	t1.join();
