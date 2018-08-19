@@ -38,15 +38,14 @@ bool CountDownLatch::await(const long& waitTime)
 		if(m_count  == 0)
 		{
 			m_useStatus.store(true);
-			return(true);
+			return true;
 		}
 		else
-			return(false);
+			return false;
 	}
 	else
 	{
 		throw std::string("Exception : Attempt was made to use a CountDownLatch that has already expried!!");
-		return(false);
 	}
 }
 
@@ -58,7 +57,9 @@ void CountDownLatch::countDown()
 		m_count.fetch_sub(1, std::memory_order_relaxed);
 		m_cond.notify_all();
 		if(m_count == 0)
+		{
 			m_useStatus.store(true);
+		}
 	}
 	else
 	{
@@ -69,7 +70,7 @@ void CountDownLatch::countDown()
 long CountDownLatch::getCount()
 {
 	// return the count of the Latch here. Its ok to call this function on an expired Latch also. does not harm.
-	return(m_count);
+	return m_count;
 }
 
 std::string CountDownLatch::toString()
@@ -85,5 +86,5 @@ std::string CountDownLatch::toString()
 		returnString += "InUse. ]";
 	else
 		returnString += "Used. ]";
-	return(returnString);	
+	return returnString;
 }
