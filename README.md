@@ -6,7 +6,7 @@ Source : https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/CountDow
 ### Build using CMake
 
 ```
-mkdir build && cd build && make ..
+mkdir build && cd build && cmake .. && make
 ```
 
 ### Run examples
