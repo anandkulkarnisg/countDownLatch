@@ -1,9 +1,14 @@
 #!/bin/bash
 
-g++ -std=c++11 -c -g CountDownLatch.cpp
-g++ -std=c++11 -c -g Example1.cpp
-g++ -std=c++11 -c -g Example2.cpp
-g++ -std=c++11 Example1.o CountDownLatch.o -o Example1.out -lpthread
-g++ -std=c++11 Example2.o CountDownLatch.o -o Example2.out -lpthread
+# First build the CountDownLatch Library.
+g++ -std=c++17 -c -g -fPIC CountDownLatch.cpp
+g++ -std=c++17 -fPIC -shared CountDownLatch.o -o libCountDownLatch.so
+
+linkerLibs="-L. -lCountDownLatch -lpthread"
+
+for exampleItem in $(ls Example*.cpp)
+do
+	g++ -std=c++17 -g $exampleItem $linkerLibs -o ${exampleItem%.cpp}.out
+done
 rm -f *.o
 
