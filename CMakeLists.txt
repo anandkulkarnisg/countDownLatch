@@ -6,8 +6,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 # threads
 find_package(Threads REQUIRED)
 
-add_executable(count_down_latch_example1 CountDownLatch.cpp Example1.cpp)
-target_link_libraries(count_down_latch_example1 pthread)
+# Generate libCountDownLatch.so file
+ADD_LIBRARY(CountDownLatch SHARED CountDownLatch.cpp)
 
-add_executable(count_down_latch_example2 CountDownLatch.cpp Example2.cpp)
-target_link_libraries(count_down_latch_example2 pthread)
+add_executable(count_down_latch_example1 Example1.cpp)
+target_link_libraries(count_down_latch_example1 CountDownLatch pthread)
+
+add_executable(count_down_latch_example2 Example2.cpp)
+target_link_libraries(count_down_latch_example2 CountDownLatch pthread)
