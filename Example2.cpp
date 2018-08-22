@@ -32,9 +32,9 @@ int main(int argc, char* argv[])
 	{
 		latch.await();
 	}
-	catch(const std::string& e)
+	catch(const std::exception& e)
 	{
-		std::cout << e << std::endl;
+		std::cout << e.what() << std::endl;
 	}
 
 	return(0);

@@ -7,6 +7,8 @@
 #include<condition_variable>
 #include <boost/core/noncopyable.hpp>
 
+#include "CountDownLatchExceptions.h"
+
 #ifndef CountDownLatch_H
 #define CountDownLatch_H
 
