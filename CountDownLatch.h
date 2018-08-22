@@ -1,3 +1,6 @@
+#ifndef CountDownLatch_H
+#define CountDownLatch_H
+
 #include<iostream>
 #include<string>
 #include<atomic>
@@ -6,8 +9,7 @@
 #include<sstream>
 #include<condition_variable>
 
-#ifndef CountDownLatch_H
-#define CountDownLatch_H
+#include "CountDownLatchExceptions.h"
 
 class CountDownLatch
 {

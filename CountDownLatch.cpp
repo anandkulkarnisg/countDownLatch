@@ -24,7 +24,7 @@ void CountDownLatch::await()
 	}
 	else
 	{
-		throw std::string("Exception : Attempt was made to use a CountDownLatch that has already expried!!");
+		throw CountDownLatchReuseException();
 	}
 }
 
@@ -41,11 +41,13 @@ bool CountDownLatch::await(const long& waitTime)
 			return true;
 		}
 		else
+		{
 			return false;
+		}
 	}
 	else
 	{
-		throw std::string("Exception : Attempt was made to use a CountDownLatch that has already expried!!");
+		throw CountDownLatchReuseException();
 	}
 }
 
@@ -63,7 +65,7 @@ void CountDownLatch::countDown()
 	}
 	else
 	{
-		throw std::string("Exception : Attempt was made to use a CountDownLatch that has already expried!!");
+		throw CountDownLatchReuseException();
 	}
 }
 
