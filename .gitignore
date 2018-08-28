@@ -36,4 +36,12 @@
 cmake-build-debug/
 
 #cmake files
-build
+buildCMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+
+CMakeCache.txt
+count_down_latch_example1
+count_down_latch_example2
+
