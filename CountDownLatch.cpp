@@ -20,6 +20,7 @@ void CountDownLatch::await()
 	{
 		std::unique_lock<std::mutex> lock(m_mutex);
 		m_cond.wait(lock, [this]{ return(this->m_count==0); });
+		lock.unlock();
 		m_useStatus.store(true);
 	}
 	else
@@ -35,6 +36,7 @@ bool CountDownLatch::await(const long& waitTime)
 	{
 		std::unique_lock<std::mutex> lock(m_mutex,std::defer_lock);
 		m_cond.wait_for(lock, std::chrono::milliseconds(waitTime), [this]{ return(this->m_count==0); });
+		lock.unlock();
 		if(m_count  == 0)
 		{
 			m_useStatus.store(true);
