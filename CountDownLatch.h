@@ -10,6 +10,7 @@
 #include<condition_variable>
 
 #include "CountDownLatchExceptions.h"
+#include "TimeUtils.h"
 
 class CountDownLatch
 {
@@ -24,7 +25,7 @@ public:
 	CountDownLatch& operator=(CountDownLatch const&) = delete;	// disable assignment operator
 	CountDownLatch(const long&);								// The countdown count that needs to be initialized.
 	void await();												// block till the count is reduced to zero.
-	bool await(const long&);									// block till the count is reduced to zero or till the time out period is achieved.
+	bool await(const long&, const TimeUnit& = TimeUnit::MilliSeconds);// block till the count is reduced to zero or till the time out period is achieved.
 	void countDown();											// counts the latch by one count.
 	long getCount();											// Get the count currently held by the latch.
 	std::string toString();										// Get a unique name of the Latch and the current status of count as well.

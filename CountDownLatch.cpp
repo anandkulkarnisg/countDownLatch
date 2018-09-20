@@ -30,13 +30,14 @@ void CountDownLatch::await()
 }
 
 // await implementation with a wait for certain time. This needs improvement and fix.
-bool CountDownLatch::await(const long& waitTime)
+bool CountDownLatch::await(const long& waitTimeQuantity, const TimeUnit& timeUnit)
 {
 	if(!m_useStatus)
 	{
 		std::unique_lock<std::mutex> lock(m_mutex,std::defer_lock);
-		m_cond.wait_for(lock, std::chrono::milliseconds(waitTime), [this]{ return(this->m_count==0); });
-		lock.unlock();
+		m_cond.wait_for(lock, TimeUtils::waitDuration(waitTimeQuantity, timeUnit), [this]{ return(this->m_count==0); });
+		if(lock.owns_lock())
+			lock.unlock();
 		if(m_count  == 0)
 		{
 			m_useStatus.store(true);
