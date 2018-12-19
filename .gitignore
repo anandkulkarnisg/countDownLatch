@@ -40,6 +40,8 @@ buildCMakeCache.txt
 CMakeFiles/
 Makefile
 cmake_install.cmake
+*.swp
+valgrind.csv
 
 CMakeCache.txt
 count_down_latch_example1

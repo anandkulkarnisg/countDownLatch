@@ -4,7 +4,7 @@
 #include<iostream>
 #include<string>
 #include<atomic>
-#include<mutex>
+#include<shared_mutex>
 #include<cmath>
 #include<sstream>
 #include<condition_variable>
@@ -16,9 +16,9 @@ class CountDownLatch
 {
 private:
 	std::atomic<long>  m_count;									// The counter of the latch has to be thread safe. Hence atomic variable is perfectly suited for this purpose.
-	std::condition_variable m_cond;								// The condition variable that is used to signal and control the logic for waiting.
-	std::mutex m_mutex;											// A Lock required for condition variable and signalling.
-	std::atomic<bool> m_useStatus;								// This indicates the use status so that after the Latch has been counted down it can not be used again.
+	std::condition_variable_any m_cond;					// The condition variable that is used to signal and control the logic for waiting.
+	std::shared_mutex m_mutex;									// A Lock required for condition variable and signalling.
+	std::atomic<bool> m_useStatus;							// This indicates the use status so that after the Latch has been counted down it can not be used again.
 
 public:
 	CountDownLatch(const CountDownLatch&) = delete;				// disable copy constructor
