@@ -27,7 +27,8 @@ void CountDownLatch::await()
     throw CountDownLatchReuseException();
 }
 
-// await implementation with a wait for certain time. This needs improvement and fix.
+// The await function works fine without any issues. It is used primarily for purpose of timeout for main thread which waits on the latch being counted down.
+// After it times out it can use the bool flag of return status to decide what to do further in case of timeout.
 bool CountDownLatch::await(const long& waitTimeQuantity, const TimeUnit& timeUnit)
 {
   if(!m_useStatus)
