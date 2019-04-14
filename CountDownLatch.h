@@ -19,6 +19,8 @@ class CountDownLatch
     std::condition_variable_any m_cond;					// The condition variable that is used to signal and control the logic for waiting.
     std::shared_mutex m_mutex;									// A Lock required for condition variable and signalling.
     std::atomic<bool> m_useStatus;							// This indicates the use status so that after the Latch has been counted down it can not be used again.
+    std::string m_latchName;                    // The latch unique name.
+    std::string getName();                      // This initializes the name of the Latch object uniquely in constructor.
 
   public:
     CountDownLatch(const CountDownLatch&) = delete;				// disable copy constructor

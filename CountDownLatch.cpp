@@ -6,11 +6,21 @@
 
 using namespace std;
 
+std::string CountDownLatch::getName()
+{
+  const void * address = static_cast<const void*>(this);
+  stringstream stream;
+  stream << address;
+  std::string result=stream.str();
+  return(result);
+}
+
 // Constructor.
 CountDownLatch::CountDownLatch(const long& count) 
 {
   m_count.store(abs(count));
   m_useStatus.store(false);
+  m_latchName=getName();
 }
 
 // await implementation.
@@ -73,10 +83,7 @@ long CountDownLatch::getCount()
 string CountDownLatch::toString()
 {
   shared_lock<shared_mutex> readLock(m_mutex);
-  const void * address = static_cast<const void*>(this);
-  stringstream stream;
-  stream << address;  
-  string returnString = " ==> [ Latch Name = latch." + stream.str();
+  string returnString = " ==> [ Latch Name = latch." + m_latchName;
   returnString += ", Latch Count = ";
   returnString += to_string(getCount());
   returnString += ", Latch UseStatus = ";
